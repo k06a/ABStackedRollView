@@ -1,7 +1,7 @@
 ABZoomTableView
 ===============
 
-Simple UITableView son, with zooms in cells near center...
+Simple `UITableView` son, witch zoom-in cells near center.
 
 <img src="https://raw.github.com/k06a/ABZoomTableView/master/ABZoomTableView-screenshot.png" width="50%" />
 
