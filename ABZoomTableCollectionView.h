@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ABZoomTableView : UITableView
-@property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UITableViewCell * cell);
+@interface ABZoomTableCollectionView : UICollectionView
+@property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UICollectionViewCell * cell);
 @end

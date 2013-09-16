@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ABViewController : UIViewController
+@interface ABViewController : UICollectionViewController
 
 @end

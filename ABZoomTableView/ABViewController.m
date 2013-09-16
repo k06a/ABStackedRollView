@@ -7,26 +7,29 @@
 //
 
 #import "ABViewController.h"
-#import "ABZoomTableView.h"
+#import "ABZoomTableCollectionView.h"
 
-@interface ABViewController () <UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet ABZoomTableView *tableView;
+@interface ABViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@property (nonatomic,weak) IBOutlet ABZoomTableCollectionView * collectionView;
 @end
 
 @implementation ABViewController
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 2;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 100;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell_1"];
+    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell_item" forIndexPath:indexPath];
     
     UIButton * button = (id)[cell viewWithTag:1];
-    button.highlighted = YES;
     [button setTitle:[@(indexPath.row) description]
             forState:(UIControlStateNormal)];
     
@@ -37,15 +40,9 @@
 {
     [super viewDidLoad];
     
-    self.tableView.cellSubviewForTransformation = ^UIView*(UITableViewCell * cell) {
+    self.collectionView.cellSubviewForTransformation = ^UIView*(UICollectionViewCell * cell) {
         return [cell viewWithTag:1];
     };
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

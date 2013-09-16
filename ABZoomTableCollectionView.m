@@ -6,49 +6,53 @@
 //  Copyright (c) 2013 Anton Bukov. All rights reserved.
 //
 
-#import "ABZoomTableView.h"
+#import "ABZoomTableCollectionView.h"
 
 #pragma mark - ABZoomTableViewProxy
 
-@interface ABZoomTableViewProxy : NSObject<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, weak) id<UITableViewDataSource> anotherDataSource;
-@property (nonatomic, weak) id<UITableViewDelegate> anotherDelegate;
-@property (nonatomic, weak) UITableView * tableView;
-@property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UITableViewCell * cell);
+@interface ABZoomTableViewProxy : NSObject<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic, weak) id<UICollectionViewDataSource> anotherDataSource;
+@property (nonatomic, weak) id<UICollectionViewDelegate> anotherDelegate;
+@property (nonatomic, weak) UICollectionView * collectionView;
+@property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UICollectionViewCell * cell);
 @end
 
 @implementation ABZoomTableViewProxy
 
-- (id)initWithTableView:(UITableView *)tableView
+- (id)initWithTableView:(UICollectionView *)collectionView
 {
     if (self = [super init])
     {
-        self.tableView = tableView;
+        self.collectionView = collectionView;
     }
     return self;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    for (UITableViewCell * cell in [self.tableView visibleCells])
+    for (UICollectionViewCell * cell in [self.collectionView visibleCells])
     {
         CGFloat y = cell.center.y - scrollView.contentOffset.y;
-        CGFloat d = 1.0 - fabsf(y - self.tableView.bounds.size.height/2)/(self.tableView.bounds.size.height/2);
+        CGFloat d = 1.0 - fabsf(y - self.collectionView.bounds.size.height/2)/(self.collectionView.bounds.size.height/2);
         CGFloat k = MAX(1.0, 1.0 + (sqrt(d))*0.4);
         
         UIView * view = self.cellSubviewForTransformation(cell);
         view.transform = CGAffineTransformMakeScale(k, k);
-        if (y < self.tableView.bounds.size.height/2)
+        if (y < self.collectionView.bounds.size.height/2)
             [cell.superview bringSubviewToFront:cell];
         else
             [cell.superview sendSubviewToBack:cell];
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    UITableViewCell * cell = [self.anotherDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+    return [self.anotherDataSource collectionView:collectionView numberOfItemsInSection:section];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell * cell = [self.anotherDataSource collectionView:self.collectionView cellForItemAtIndexPath:indexPath];
     
     cell.contentView.backgroundColor = [UIColor clearColor];
     cell.contentView.clipsToBounds = NO;
@@ -108,16 +112,15 @@
 
 #pragma mark - ABZoomTableView
 
-@interface ABZoomTableView ()
+@interface ABZoomTableCollectionView ()
 @property (nonatomic, strong) ABZoomTableViewProxy * dataSourceAndDelegate;
 @end
 
-@implementation ABZoomTableView
+@implementation ABZoomTableCollectionView
 
 - (void)setup
 {
     self.clipsToBounds = NO;
-    self.separatorStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
     self.showsVerticalScrollIndicator = NO;
 }
@@ -140,9 +143,9 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
+- (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
-    if (self = [super initWithFrame:frame style:style])
+    if (self = [super initWithFrame:frame collectionViewLayout:layout])
     {
         [self setup];
     }
@@ -171,23 +174,23 @@
     return _dataSourceAndDelegate;
 }
 
-- (UIView *(^)(UITableViewCell *))cellSubviewForTransformation
+- (UIView *(^)(UICollectionViewCell *))cellSubviewForTransformation
 {
     return [self.dataSourceAndDelegate cellSubviewForTransformation];
 }
 
-- (void)setCellSubviewForTransformation:(UIView *(^)(UITableViewCell *))cellSubviewForTransformation
+- (void)setCellSubviewForTransformation:(UIView *(^)(UICollectionViewCell *))cellSubviewForTransformation
 {
     [self.dataSourceAndDelegate setCellSubviewForTransformation:cellSubviewForTransformation];
 }
 
-- (void)setDataSource:(id<UITableViewDataSource>)dataSource
+- (void)setDataSource:(id<UICollectionViewDataSource>)dataSource
 {
     self.dataSourceAndDelegate.anotherDataSource = dataSource;
     [super setDataSource:self.dataSourceAndDelegate];
 }
 
-- (void)setDelegate:(id<UITableViewDelegate>)delegate
+- (void)setDelegate:(id<UICollectionViewDelegate>)delegate
 {
     self.dataSourceAndDelegate.anotherDelegate = delegate;
     [super setDelegate:self.dataSourceAndDelegate];
