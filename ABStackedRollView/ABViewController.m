@@ -2,15 +2,15 @@
 //  ABViewController.m
 //  ABZoomTableView
 //
-//  Created by Антон Буков on 29.06.13.
+//  Created by Anton Bukov on 29.06.13.
 //  Copyright (c) 2013 Anton Bukov. All rights reserved.
 //
 
 #import "ABViewController.h"
-#import "ABZoomTableCollectionView.h"
+#import "ABStackedRollView.h"
 
 @interface ABViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
-@property (nonatomic,weak) IBOutlet ABZoomTableCollectionView * collectionView;
+@property (nonatomic,weak) IBOutlet ABStackedRollView * collectionView;
 @end
 
 @implementation ABViewController

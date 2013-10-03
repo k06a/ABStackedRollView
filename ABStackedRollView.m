@@ -2,22 +2,22 @@
 //  ABZoomTableView.m
 //  ABZoomTableView
 //
-//  Created by Антон Буков on 29.06.13.
+//  Created by Anton Bukov on 29.06.13.
 //  Copyright (c) 2013 Anton Bukov. All rights reserved.
 //
 
-#import "ABZoomTableCollectionView.h"
+#import "ABStackedRollView.h"
 
 #pragma mark - ABZoomTableViewProxy
 
-@interface ABZoomTableViewProxy : NSObject<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface ABStackedRollViewProxy : NSObject<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, weak) id<UICollectionViewDataSource> anotherDataSource;
 @property (nonatomic, weak) id<UICollectionViewDelegate> anotherDelegate;
 @property (nonatomic, weak) UICollectionView * collectionView;
 @property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UICollectionViewCell * cell);
 @end
 
-@implementation ABZoomTableViewProxy
+@implementation ABStackedRollViewProxy
 
 - (id)initWithTableView:(UICollectionView *)collectionView
 {
@@ -86,7 +86,7 @@
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
     if ([super respondsToSelector:aSelector])
-        return [ABZoomTableViewProxy instanceMethodSignatureForSelector:aSelector];
+        return [ABStackedRollViewProxy instanceMethodSignatureForSelector:aSelector];
     if ([self.anotherDataSource respondsToSelector:aSelector])
         return [[self.anotherDataSource class] instanceMethodSignatureForSelector:aSelector];
     if ([self.anotherDelegate respondsToSelector:aSelector])
@@ -112,11 +112,11 @@
 
 #pragma mark - ABZoomTableView
 
-@interface ABZoomTableCollectionView ()
-@property (nonatomic, strong) ABZoomTableViewProxy * dataSourceAndDelegate;
+@interface ABStackedRollView ()
+@property (nonatomic, strong) ABStackedRollViewProxy * dataSourceAndDelegate;
 @end
 
-@implementation ABZoomTableCollectionView
+@implementation ABStackedRollView
 
 - (void)setup
 {
@@ -167,10 +167,10 @@
     [self.dataSourceAndDelegate scrollViewDidScroll:self];
 }
 
-- (ABZoomTableViewProxy *)dataSourceAndDelegate
+- (ABStackedRollViewProxy *)dataSourceAndDelegate
 {
     if (_dataSourceAndDelegate == nil)
-        _dataSourceAndDelegate = [[ABZoomTableViewProxy alloc] initWithTableView:self];
+        _dataSourceAndDelegate = [[ABStackedRollViewProxy alloc] initWithTableView:self];
     return _dataSourceAndDelegate;
 }
 

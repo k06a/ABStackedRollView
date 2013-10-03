@@ -2,12 +2,12 @@
 //  ABZoomTableView.h
 //  ABZoomTableView
 //
-//  Created by Антон Буков on 29.06.13.
+//  Created by Anton Bukov on 29.06.13.
 //  Copyright (c) 2013 Anton Bukov. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ABZoomTableCollectionView : UICollectionView
+@interface ABStackedRollView : UICollectionView
 @property (nonatomic, copy) UIView * (^cellSubviewForTransformation)(UICollectionViewCell * cell);
 @end
