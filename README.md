@@ -19,6 +19,7 @@ Usage
 ```
 self.stackedRollView.cellSubviewForTransformation = ^UIView*(UICollectionViewCell * cell) {
     return [cell.contentView viewWithTag:1];
+};
 ```
 
 Contribute
