@@ -19,6 +19,8 @@
 		2512D7D3177ED34F00027ABF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2512D7D1177ED34F00027ABF /* MainStoryboard.storyboard */; };
 		2512D7D6177ED34F00027ABF /* ABViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512D7D5177ED34F00027ABF /* ABViewController.m */; };
 		2512D7DE177F20F100027ABF /* ABStackedRollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512D7DD177F20F100027ABF /* ABStackedRollView.m */; };
+		84DF6CB617FD887C008D8160 /* NSEnumerator+Linq.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DF6CB317FD887C008D8160 /* NSEnumerator+Linq.m */; };
+		84DF6CB717FD887C008D8160 /* NSKeyValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DF6CB517FD887C008D8160 /* NSKeyValuePair.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,10 @@
 		2512D7D5177ED34F00027ABF /* ABViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABViewController.m; sourceTree = "<group>"; };
 		2512D7DC177F20F100027ABF /* ABStackedRollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABStackedRollView.h; sourceTree = SOURCE_ROOT; };
 		2512D7DD177F20F100027ABF /* ABStackedRollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABStackedRollView.m; sourceTree = SOURCE_ROOT; };
+		84DF6CB217FD887C008D8160 /* NSEnumerator+Linq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSEnumerator+Linq.h"; path = "NSEnumeratorLinq/NSEnumeratorLinq/NSEnumerator+Linq.h"; sourceTree = "<group>"; };
+		84DF6CB317FD887C008D8160 /* NSEnumerator+Linq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSEnumerator+Linq.m"; path = "NSEnumeratorLinq/NSEnumeratorLinq/NSEnumerator+Linq.m"; sourceTree = "<group>"; };
+		84DF6CB417FD887C008D8160 /* NSKeyValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSKeyValuePair.h; path = NSEnumeratorLinq/NSEnumeratorLinq/NSKeyValuePair.h; sourceTree = "<group>"; };
+		84DF6CB517FD887C008D8160 /* NSKeyValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSKeyValuePair.m; path = NSEnumeratorLinq/NSEnumeratorLinq/NSKeyValuePair.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,7 @@
 		2512D7AD177ED34F00027ABF = {
 			isa = PBXGroup;
 			children = (
+				84DF6CB117FD886A008D8160 /* NSEnumeratorLinq */,
 				2512D7BF177ED34F00027ABF /* ABStackedRollView */,
 				2512D7B8177ED34F00027ABF /* Frameworks */,
 				2512D7B7177ED34F00027ABF /* Products */,
@@ -95,7 +102,6 @@
 				2512D7DC177F20F100027ABF /* ABStackedRollView.h */,
 				2512D7DD177F20F100027ABF /* ABStackedRollView.m */,
 			);
-			name = ABStackedRollView;
 			path = ABStackedRollView;
 			sourceTree = "<group>";
 		};
@@ -111,6 +117,17 @@
 				2512D7CF177ED34F00027ABF /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84DF6CB117FD886A008D8160 /* NSEnumeratorLinq */ = {
+			isa = PBXGroup;
+			children = (
+				84DF6CB217FD887C008D8160 /* NSEnumerator+Linq.h */,
+				84DF6CB317FD887C008D8160 /* NSEnumerator+Linq.m */,
+				84DF6CB417FD887C008D8160 /* NSKeyValuePair.h */,
+				84DF6CB517FD887C008D8160 /* NSKeyValuePair.m */,
+			);
+			name = NSEnumeratorLinq;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,10 +197,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84DF6CB717FD887C008D8160 /* NSKeyValuePair.m in Sources */,
 				2512D7C6177ED34F00027ABF /* main.m in Sources */,
 				2512D7CA177ED34F00027ABF /* ABAppDelegate.m in Sources */,
 				2512D7D6177ED34F00027ABF /* ABViewController.m in Sources */,
 				2512D7DE177F20F100027ABF /* ABStackedRollView.m in Sources */,
+				84DF6CB617FD887C008D8160 /* NSEnumerator+Linq.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

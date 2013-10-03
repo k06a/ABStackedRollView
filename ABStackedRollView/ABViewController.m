@@ -17,7 +17,7 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -29,8 +29,15 @@
 {
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell_item" forIndexPath:indexPath];
     
-    UIButton * button = (id)[cell viewWithTag:1];
-    [button setTitle:[@(indexPath.row) description]
+    UIView * view = (id)[cell viewWithTag:1];
+    view.layer.cornerRadius = 5.0;
+    view.layer.masksToBounds = YES;
+    view.layer.borderColor = [UIColor blackColor].CGColor;
+    view.layer.borderWidth = 1.0;
+    
+    UIButton * button = (id)[cell viewWithTag:2];
+    button.userInteractionEnabled = NO;
+    [button setTitle:[NSString stringWithFormat:@"Cell %i",indexPath.row]
             forState:(UIControlStateNormal)];
     
     return cell;
@@ -40,8 +47,10 @@
 {
     [super viewDidLoad];
     
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
     self.collectionView.cellSubviewForTransformation = ^UIView*(UICollectionViewCell * cell) {
-        return [cell viewWithTag:1];
+        return [cell.contentView viewWithTag:1];
     };
 }
 

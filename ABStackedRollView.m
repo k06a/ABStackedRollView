@@ -7,6 +7,7 @@
 //
 
 #import "ABStackedRollView.h"
+#import "NSEnumerator+Linq.h"
 
 #pragma mark - ABZoomTableViewProxy
 
@@ -28,21 +29,40 @@
     return self;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UICollectionView *)collectionView
 {
-    for (UICollectionViewCell * cell in [self.collectionView visibleCells])
+    for (NSIndexPath * ip in [[collectionView indexPathsForVisibleItems].objectEnumerator orderBy:^id(NSIndexPath * ip){return @(ip.row);}])
     {
-        CGFloat y = cell.center.y - scrollView.contentOffset.y;
-        CGFloat d = 1.0 - fabsf(y - self.collectionView.bounds.size.height/2)/(self.collectionView.bounds.size.height/2);
-        CGFloat k = MAX(1.0, 1.0 + (sqrt(d))*0.4);
-        
+        UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:ip];
         UIView * view = self.cellSubviewForTransformation(cell);
-        view.transform = CGAffineTransformMakeScale(k, k);
-        if (y < self.collectionView.bounds.size.height/2)
-            [cell.superview bringSubviewToFront:cell];
-        else
+        
+        CGFloat offset = collectionView.contentOffset.y + collectionView.contentInset.top - (cell.frame.origin.y - cell.frame.size.height);
+        CGFloat offset2 = -(collectionView.contentOffset.y + collectionView.frame.size.height - collectionView.contentInset.bottom -  (cell.frame.origin.y + 2*cell.frame.size.height));
+        
+        BOOL first = (offset > 0);
+        BOOL second = (offset2 > 0);
+        
+        if (second)
             [cell.superview sendSubviewToBack:cell];
+        else
+            [cell.superview bringSubviewToFront:cell];
+        
+        if (!first && !second)
+        {
+            view.transform = CGAffineTransformIdentity;
+            continue;
+        }
+        
+        if (second)
+            offset = offset2;
+            
+        CGFloat k1 = (7 + ((100 - offset) / 100))/8;
+        CGFloat k2 = MAX(0,offset - pow(offset,1./3.)*7);
+        view.transform = CGAffineTransformScale(CGAffineTransformMakeTranslation(0,(second?-k2:k2)),k1,k1);
     }
+    
+    if ([self.anotherDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
+        [self.anotherDelegate scrollViewDidScroll:collectionView];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -118,6 +138,22 @@
 
 @implementation ABStackedRollView
 
+#pragma mark - Properties
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setContentInset:UIEdgeInsetsMake(frame.size.height/3, 0, frame.size.height/3, 0)];
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    [self setContentInset:UIEdgeInsetsMake(bounds.size.height/3, 0, bounds.size.height/3, 0)];
+}
+
+#pragma mark - Init methods
+
 - (void)setup
 {
     self.clipsToBounds = NO;
@@ -148,6 +184,7 @@
     if (self = [super initWithFrame:frame collectionViewLayout:layout])
     {
         [self setup];
+        [self setFrame:frame];
     }
     return self;
 }
@@ -157,6 +194,7 @@
     if (self = [super initWithCoder:aDecoder])
     {
         [self setup];
+        [self setFrame:super.frame];
     }
     return self;
 }
