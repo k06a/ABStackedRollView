@@ -7,7 +7,6 @@
 //
 
 #import "ABStackedRollView.h"
-#import "NSEnumerator+Linq.h"
 
 #pragma mark - ABZoomTableViewProxy
 
@@ -31,7 +30,7 @@
 
 - (void)scrollViewDidScroll:(UICollectionView *)collectionView
 {
-    for (NSIndexPath * ip in [[collectionView indexPathsForVisibleItems].objectEnumerator orderBy:^id(NSIndexPath * ip){return @(ip.row);}])
+    for (NSIndexPath * ip in [[collectionView indexPathsForVisibleItems] sortedArrayUsingSelector:@selector(compare:)])
     {
         UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:ip];
         UIView * view = self.cellSubviewForTransformation(cell);
