@@ -47,6 +47,9 @@
 {
     [super viewDidLoad];
     
+    self.collectionView.bounds = CGRectMake(0, 0, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height*3.5);
+    self.collectionView.center = CGPointMake(self.collectionView.center.x, self.collectionView.center.y+10);
+    
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     self.collectionView.cellSubviewForTransformation = ^UIView*(UICollectionViewCell * cell) {
